@@ -9,7 +9,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 /**
- *
  * @author Jing Zhi Bao
  */
 @Configuration
@@ -20,7 +19,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String RESOURCE_ID = "resource-server-rest-api";
     private static final String SECURED_READ_SCOPE = "#oauth2.hasScope('read')";
-    private static final String SECURED_WRITE_SCOPE = "#oauth2.hasScope('write')";
+    private static final String SECURED_WRITE_SCOPE = "#oauth2.hasScope('app')";
     private static final String HI_PATTERN = "/hi/**";
 
     /**
@@ -32,16 +31,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        // http.requestMatchers().antMatchers("/hi")
-        //         .and()
-        //         .authorizeRequests()
-        //         .antMatchers("/hi").authenticated();
 
-
-        http.requestMatchers()
-                .antMatchers(HI_PATTERN).and().authorizeRequests()
-                .antMatchers(HttpMethod.POST, HI_PATTERN).access(SECURED_WRITE_SCOPE)
-                .anyRequest().access(SECURED_READ_SCOPE);
+        http
+                .requestMatchers().antMatchers(HI_PATTERN).and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, HI_PATTERN).access(SECURED_WRITE_SCOPE)
+                .anyRequest().access(SECURED_READ_SCOPE)
+        ;
 
     }
 

@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping("/hi")
-    @PreAuthorize("hasAuthority('admin')")
     public String hi(String name) {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
 
         System.out.println(authentication);
         return "hi , " + name;
+    }
+
+    @GetMapping("/hello")
+    public String test(){
+        return "Hello World";
     }
 }
